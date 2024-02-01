@@ -1,8 +1,8 @@
 let modInfo = {
-	name: "The ??? Tree",
-	id: "mymod",
-	author: "nobody",
-	pointsName: "points",
+	name: "The Elemental Tree",
+	id: "drachronic-elemental-tree",
+	author: "Drachronic",
+	pointsName: "Essence",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.1",
+	name: "Elemental Wisp",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -43,6 +43,28 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
+
+	// Mana Upgrades
+	if (hasUpgrade('m', 11)) gain = gain.times(2)
+	if (hasUpgrade('m', 13)) gain = gain.times(upgradeEffect('m', 13))
+	if (hasUpgrade('m', 21)) gain = gain.times(5)
+
+	// Magic Upgrades
+
+	// Light Upgrades
+	
+	// Dark Upgrades
+	
+	// Elemental Upgrades
+
+	// Air Upgrades
+
+	// Water Upgrades
+
+	// Earth Upgrades
+	
+	// Fire Upgrades
+
 	return gain
 }
 
