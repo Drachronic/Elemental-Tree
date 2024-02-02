@@ -13,10 +13,22 @@ addLayer("m", {
     baseResource: "Essence", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
+    exponent() {
+        exp = new Decimal(0.25)
+        if (hasUpgrade('m', 14)) exp = exp.add(0.25)
+        if (hasUpgrade('m', 24)) exp = exp.add(0.25)
+        if (hasUpgrade('m', 34)) exp = exp.add(0.25)
+        if (hasUpgrade('m', 44)) exp = exp.add(0.25)
+        if (hasUpgrade('m', 54)) exp = exp.add(0.25)
+        return exp
+    }, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('m', 12)) mult = mult.times(2)
+        if (hasUpgrade('m', 22)) mult = mult.times(2)
+        if (hasUpgrade('m', 32)) mult = mult.times(2)
+        if (hasUpgrade('m', 42)) mult = mult.times(3)
+        if (hasUpgrade('m', 52)) mult = mult.times(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -43,42 +55,165 @@ addLayer("m", {
             description: "Effect scales with mana",
             cost: new Decimal(5),
             effect() {
-                return player[this.layer].points.add(1).pow(0.5)
+                return player[this.layer].points.add(1).pow(0.1)
             },
             effectDisplay() {
                 return format(upgradeEffect(this.layer, this.id))+"x"
             }
         },
+        14: {
+            title: "Research I",
+            description: "Reduces essence requirement",
+            cost: new Decimal(10)
+        },
+        15: {
+            title: "Unlock Magic",
+            description: "Unlocks Magic Resources",
+            cost: new Decimal(15),
+            onPurchase() {
+                player.g.unlocked = true
+            }
+        },
         21: {
             title: "Infusion II",
-            description: "Triples essence gain",
-            cost: new Decimal(20)
+            description: "Doubles essence gain again",
+            cost: new Decimal(25)
         },
         22: {
             title: "Control II",
-            description: "Triples mana gain",
-            cost: new Decimal(100)
+            description: "Doubles mana gain again",
+            cost: new Decimal(50)
         },
         23: {
             title: "Siphon II",
             description: "Effect scales with mana",
-            cost: new Decimal(500)
+            cost: new Decimal(100),
+            effect() {
+                return player[this.layer].points.add(1).pow(0.12)
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id))+"x"
+            }
+        },
+        24: {
+            title: "Research II",
+            description: "Reduces essence requirement",
+            cost: new Decimal(250)
         },
         31: {
             title: "Infusion III",
-            description: "Quintuples essence gain",
-            cost: new Decimal(1500)
+            description: "Doubles essence gain a third time",
+            cost: new Decimal(1000),
+            unlocked() {
+                return hasUpgrade('g', 16)
+            }
         },
         32: {
             title: "Control III",
-            description: "Quintuples mana gain",
-            cost: new Decimal(100)
+            description: "Doubles mana gain a third time",
+            cost: new Decimal(2500),
+            unlocked() {
+                return hasUpgrade('m', 25)
+            }
         },
         33: {
             title: "Siphon III",
             description: "Effect scales with mana",
-            cost: new Decimal(500)
+            cost: new Decimal(5000),
+            effect() {
+                return player[this.layer].points.add(1).pow(0.14)
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id))+"x"
+            },
+            unlocked() {
+                return hasUpgrade('m', 25)
+            }
         },
+        34: {
+            title: "Research III",
+            description: "Reduces essence requirement",
+            cost: new Decimal(25000),
+            unlocked() {
+                return hasUpgrade('m', 25)
+            }
+        },
+        41: {
+            title: "Infusion IV",
+            description: "Essence gain x10",
+            cost: new Decimal(500000),
+            unlocked() {
+                return hasUpgrade('m', 35)
+            }
+        },
+        42: {
+            title: "Control IV",
+            description: "Mana gain x10",
+            cost: new Decimal(250000),
+            unlocked() {
+                return hasUpgrade('m', 35)
+            }
+        },
+        43: {
+            title: "Siphon IV",
+            description: "Effect scales with mana",
+            cost: new Decimal(500000),
+            effect() {
+                return player[this.layer].points.add(1).pow(0.2)
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id))+"x"
+            },
+            unlocked() {
+                return hasUpgrade('m', 35)
+            }
+        },
+        44: {
+            title: "Research IV",
+            description: "Reduces essence requirement",
+            cost: new Decimal(1000000),
+            unlocked() {
+                return hasUpgrade('m', 35)
+            }
+        },
+        51: {
+            title : "Infusion V",
+            description: "Essence gain x100",
+            cost: new Decimal(5000000),
+            unlocked() {
+                return hasUpgrade('m', 45)
+            }
+        },
+        52: {
+            title: "Control V",
+            description: "Mana gain x100",
+            cost: new Decimal(25000000),
+            unlocked() {
+                return hasUpgrade('m', 45)
+            }
+        },
+        53: {
+            title: "Siphon V",
+            description: "Effect scales with mana",
+            cost: new Decimal(100000000),
+            effect() {
+                return player[this.layer].points.add(1).pow(1)
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id))+"x"
+            },
+            unlocked() {
+                return hasUpgrade('m', 45)
+            }
+        },
+        54: {
+            title: "Research V",
+            description: "Reduces essence requirement",
+            cost: new Decimal(500000000),
+            unlocked() {
+                return hasUpgrade('m', 45)
+            }
+        }
     }
 })
 
@@ -100,6 +235,7 @@ addLayer("g", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade('g', 12)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -109,13 +245,50 @@ addLayer("g", {
     hotkeys: [
         {key: "g", description: "G: Reset for Magic", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.g.unlocked)
+    },
     upgrades: {
         11: {
-            title: "Infuse",
-            description: "Double Essence Gain",
+            title: "Study I",
+            description: "Doubles Essence Gain",
             cost: new Decimal(1)
-        }
+        },
+        12: {
+            title: "Transmute I",
+            description: "Doubles Magic Gain",
+            cost: new Decimal(3)
+        },
+        13: {
+            title: "Training I",
+            description: "Doubles Mana Gain",
+            cost: new Decimal(5)
+        },
+        14: {
+            title: "Power I",
+            description: "Passively Gain Mana",
+            cost: new Decimal(10)
+        },
+        15: {
+            title: "Knowledge I",
+            description: "Increases Mana Gain based on Magic",
+            cost: new Decimal(15)
+        },
+        16: {
+            title: "Advanced Magic",
+            description: "Unlock Mana Row 3 Upgrades",
+            cost: new Decimal(5)
+        },
+        26: {
+            title: "Expert Magic",
+            description: "Unlock Row 4 Upgrades",
+            cost: new Decimal(250000)
+        },
+        36: {
+            title: "Master Magic",
+            description: "Unlock Row 5 Upgrades",
+            cost: new Decimal(2000000)
+        },
     }
 })
 
@@ -146,7 +319,9 @@ addLayer("l", {
     hotkeys: [
         {key: "l", description: "L: Reset for Light", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.l.unlocked)
+    },
     upgrades: {
         11: {
             title: "Infuse",
@@ -183,7 +358,9 @@ addLayer("d", {
     hotkeys: [
         {key: "d", description: "D: Reset for Dark", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.d.unlocked)
+    },
     upgrades: {
         11: {
             title: "Infuse",
@@ -220,7 +397,9 @@ addLayer("t", {
     hotkeys: [
         {key: "t", description: "T: Reset for Elemental", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.t.unlocked)
+    },
     upgrades: {
         11: {
             title: "Infuse",
@@ -256,7 +435,9 @@ addLayer("a", {
     hotkeys: [
         {key: "ma", description: "A: Reset for Air", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.a.unlocked)
+    },
     upgrades: {
         11: {
             title: "Infuse",
@@ -292,7 +473,9 @@ addLayer("w", {
     hotkeys: [
         {key: "w", description: "W: Reset for Water", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.w.unlocked)
+    },
     upgrades: {
         11: {
             title: "Infuse",
@@ -328,7 +511,9 @@ addLayer("e", {
     hotkeys: [
         {key: "e", description: "E: Reset for Earth", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.e.unlocked)
+    },
     upgrades: {
         11: {
             title: "Infuse",
@@ -364,7 +549,9 @@ addLayer("f", {
     hotkeys: [
         {key: "f", description: "F: Reset for Fire", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.f.unlocked)
+    },
     upgrades: {
         11: {
             title: "Infuse",
@@ -400,7 +587,9 @@ addLayer("i", {
     hotkeys: [
         {key: "i", description: "i: Reset for Life", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.i.unlocked)
+    },
     upgrades: {
         11: {
             title: "Infuse",
@@ -436,7 +625,9 @@ addLayer("c", {
     hotkeys: [
         {key: "c", description: "C: Reset for Chaos", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true},
+    layerShown(){
+        return (player.c.unlocked)
+    },
     upgrades: {
         11: {
             title: "Infuse",

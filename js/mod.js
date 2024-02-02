@@ -46,24 +46,40 @@ function getPointGen() {
 
 	// Mana Upgrades
 	if (hasUpgrade('m', 11)) gain = gain.times(2)
+	if (hasUpgrade('m', 21)) gain = gain.times(2)
+	if (hasUpgrade('m', 31)) gain = gain.times(2)
+	if (hasUpgrade('m', 41)) gain = gain.times(3)
+	if (hasUpgrade('m', 51)) gain = gain.times(3)
+
 	if (hasUpgrade('m', 13)) gain = gain.times(upgradeEffect('m', 13))
-	if (hasUpgrade('m', 21)) gain = gain.times(5)
+	if (hasUpgrade('m', 23)) gain = gain.times(upgradeEffect('m', 23))
+	if (hasUpgrade('m', 33)) gain = gain.times(upgradeEffect('m', 33))
+	if (hasUpgrade('m', 43)) gain = gain.times(upgradeEffect('m', 43))
+	if (hasUpgrade('m', 53)) gain = gain.times(upgradeEffect('m', 53))
 
 	// Magic Upgrades
+	if (hasUpgrade('g', 11)) gain = gain.times(2)
 
 	// Light Upgrades
+	if (hasUpgrade('l', 11)) gain = gain.times(2)
 	
 	// Dark Upgrades
+	if (hasUpgrade('d', 11)) gain = gain.times(2)
 	
 	// Elemental Upgrades
+	if (hasUpgrade('t', 11)) gain = gain.times(2)
 
 	// Air Upgrades
+	if (hasUpgrade('a', 11)) gain = gain.times(2)
 
 	// Water Upgrades
+	if (hasUpgrade('w', 11)) gain = gain.times(2)
 
 	// Earth Upgrades
+	if (hasUpgrade('e', 11)) gain = gain.times(2)
 	
 	// Fire Upgrades
+	if (hasUpgrade('f', 11)) gain = gain.times(2)
 
 	return gain
 }
