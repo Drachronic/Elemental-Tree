@@ -3,7 +3,22 @@ let modInfo = {
 	id: "drachronic-elemental-tree",
 	author: "Drachronic",
 	pointsName: "Essence",
-	modFiles: ["layers.js", "tree.js"],
+	modFiles: [
+		"tree.js", 
+		"layers/01_mana.js",
+		"layers/02_magic.js",
+		"layers/03a_light.js",
+		"layers/03b_dark.js",
+		"layers/04_elemental.js",
+		"layers/05a_air.js",
+		"layers/05b_water.js",
+		"layers/05c_earth.js",
+		"layers/05d_fire.js",
+		"layers/06a_life.js",
+		"layers/06b_chaos.js",
+		"layers/07a_alpha.js",
+		"layers/07b_omega.js"
+	],
 
 	discordName: "",
 	discordLink: "",
@@ -45,41 +60,34 @@ function getPointGen() {
 	let gain = new Decimal(1)
 
 	// Mana Upgrades
-	if (hasUpgrade('m', 11)) gain = gain.times(2)
-	if (hasUpgrade('m', 21)) gain = gain.times(2)
-	if (hasUpgrade('m', 31)) gain = gain.times(2)
-	if (hasUpgrade('m', 41)) gain = gain.times(3)
-	if (hasUpgrade('m', 51)) gain = gain.times(3)
+	if (hasUpgrade('mana', 11)) gain = gain.times(2)
+	if (hasUpgrade('mana', 21)) gain = gain.times(3)
+	if (hasUpgrade('mana', 31)) gain = gain.times(4)
 
-	if (hasUpgrade('m', 13)) gain = gain.times(upgradeEffect('m', 13))
-	if (hasUpgrade('m', 23)) gain = gain.times(upgradeEffect('m', 23))
-	if (hasUpgrade('m', 33)) gain = gain.times(upgradeEffect('m', 33))
-	if (hasUpgrade('m', 43)) gain = gain.times(upgradeEffect('m', 43))
-	if (hasUpgrade('m', 53)) gain = gain.times(upgradeEffect('m', 53))
+  if (hasUpgrade('mana', 15)) gain = gain.times(upgradeEffect('mana', 15))
+  if (hasUpgrade('mana', 25)) gain = gain.times(upgradeEffect('mana', 25))
+
+
+
+
 
 	// Magic Upgrades
-	if (hasUpgrade('g', 11)) gain = gain.times(2)
+	if (hasUpgrade('magic', 11)) gain = gain.times(3)
+	if (hasUpgrade('magic', 21)) gain = gain.times(3)
 
 	// Light Upgrades
-	if (hasUpgrade('l', 11)) gain = gain.times(2)
 	
 	// Dark Upgrades
-	if (hasUpgrade('d', 11)) gain = gain.times(2)
 	
 	// Elemental Upgrades
-	if (hasUpgrade('t', 11)) gain = gain.times(2)
 
 	// Air Upgrades
-	if (hasUpgrade('a', 11)) gain = gain.times(2)
 
 	// Water Upgrades
-	if (hasUpgrade('w', 11)) gain = gain.times(2)
 
 	// Earth Upgrades
-	if (hasUpgrade('e', 11)) gain = gain.times(2)
 	
 	// Fire Upgrades
-	if (hasUpgrade('f', 11)) gain = gain.times(2)
 
 	return gain
 }
