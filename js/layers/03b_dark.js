@@ -32,14 +32,100 @@ addLayer("dark", {
   hotkeys: [
       {key: "d", description: "D: Reset for Dark", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
   ],
-  layerShown(){
+  layerShown() {
       return (player.dark.unlocked)
   },
   upgrades: {
       11: {
-          title: "Infuse",
-          description: "Double Essence Gain",
-          cost: new Decimal(1)
+        title: "Darkness I",
+        description: "Double Mana Gain",
+        cost: new Decimal(1)
+      },
+      12: {
+        title: "Shade I",
+        description: "",
+        cost: new Decimal(3)
+      },
+      13: {
+        title: "",
+        description: "",
+        cost: new Decimal(5)
+      },
+      14: {
+        title: "",
+        description: "",
+        cost: new Decimal(12)
+      },
+      21: {
+        title: "",
+        description: "",
+        cost: new Decimal(25)
+      },
+      22: {
+        title: "",
+        description: "",
+        cost: new Decimal(100)
+      },
+      23: {
+        title: "",
+        description: "",
+        cost: new Decimal(250)
+      },
+      24: {
+        title: "",
+        description: "",
+        cost: new Decimal(500)
       }
+  },
+  milestones: {
+    0: {
+      requirementDescription: "5 Dark",
+      effectDescription: "",
+      done() {
+        return player.light.points.gte(5)
+      }
+    },
+    1: {
+      requirementDescription: "",
+      effectDescription: "",
+      done() {
+        return player.light.points.gte(25)
+      }
+    },
+    2: {
+      requirementDescription: "",
+      effectDescription: "",
+      done() {
+        return player.light.points.gte(100)
+      }
+    },
+    3: {
+      requirementDescription: "",
+      effectDescription: "",
+      done() {
+        return player.light.points.gte(1000)
+      }
+    },
+    4: {
+      requirementDescription: "",
+      effectDescription: "",
+      done() {
+        return player.light.points.gte(10000)
+      }
+    },
+    5: {
+      requirementDescription: "",
+      effectDescription: "",
+      done() {
+        return player.light.points.gte(100000)
+      }
+    },
+    6: {
+      requirementDescription: "",
+      effectDescription: "",
+      done() {
+        return player.light.points.gte(1000000)
+      }
+    }
   }
 })

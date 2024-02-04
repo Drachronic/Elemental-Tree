@@ -7,9 +7,11 @@ let modInfo = {
 		"tree.js", 
 		"layers/01_mana.js",
 		"layers/02_magic.js",
+		"layers/03_elemental.js",
+
+
 		"layers/03a_light.js",
 		"layers/03b_dark.js",
-		"layers/04_elemental.js",
 		"layers/05a_air.js",
 		"layers/05b_water.js",
 		"layers/05c_earth.js",
@@ -59,21 +61,24 @@ function getPointGen() {
 
 	let gain = new Decimal(1)
 
+	// Mana Milestones
+	if (hasMilestone('mana', 0)) gain = gain.times(2)
+	if (hasMilestone('mana', 3)) gain = gain.times(2)
+	if (hasMilestone('mana', 5)) gain = gain.times(milestoneEffect('mana', 5))
+	if (hasMilestone('mana', 9)) gain = gain.times(10)
+
 	// Mana Upgrades
 	if (hasUpgrade('mana', 11)) gain = gain.times(2)
-	if (hasUpgrade('mana', 21)) gain = gain.times(3)
-	if (hasUpgrade('mana', 31)) gain = gain.times(4)
-
-  if (hasUpgrade('mana', 15)) gain = gain.times(upgradeEffect('mana', 15))
-  if (hasUpgrade('mana', 25)) gain = gain.times(upgradeEffect('mana', 25))
+	if (hasUpgrade('mana', 12)) gain = gain.times(2)
+	if (hasUpgrade('mana', 13)) gain = gain.times(2)
 
 
+  //if (hasUpgrade('mana', 15)) gain = gain.times(upgradeEffect('mana', 15))
 
-
+	// Magic Milestones
+	if (hasMilestone('magic', 0)) gain = gain.times(3)
 
 	// Magic Upgrades
-	if (hasUpgrade('magic', 11)) gain = gain.times(3)
-	if (hasUpgrade('magic', 21)) gain = gain.times(3)
 
 	// Light Upgrades
 	

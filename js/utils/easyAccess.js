@@ -73,3 +73,8 @@ function achievementEffect(layer, id) {
 function gridEffect(layer, id) {
 	return (gridRun(layer, 'getEffect', player[layer].grid[id], id))
 }
+
+// ** ALL FUNCTIONS BELOW HAVE BEEN ADDED **
+function milestoneEffect(layer, id) {
+	return (tmp[layer].milestones[id].effect)
+}
