@@ -186,7 +186,7 @@ addLayer("c", {
                 unlocked() { return player[this.layer].unlocked }, 
                 canAfford() {
                     return player[this.layer].points.gte(tmp[this.layer].buyables[this.id].cost)},
-                buy() { 
+                buy() {
                     cost = tmp[this.layer].buyables[this.id].cost
                     player[this.layer].points = player[this.layer].points.sub(cost)	
                     player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)

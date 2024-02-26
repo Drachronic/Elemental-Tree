@@ -24,7 +24,6 @@ function constructNodeStyle(layer){
     return style
 }
 
-
 function challengeStyle(layer, id) {
 	if (player[layer].activeChallenge == id && canCompleteChallenge(layer, id)) return "canComplete"
 	else if (hasChallenge(layer, id)) return "done"
@@ -46,8 +45,6 @@ function achievementStyle(layer, id){
     style.push(ach.style)
     return style
 }
-
-
 
 function updateWidth() {
 	let screenWidth = window.innerWidth
@@ -192,4 +189,18 @@ function updateTabFormat(layer) {
 				Vue.set(temp[layer].microtabs[family][tab], 'content', constructTabFormat(layer, tab, family))
 		}
 	}
+}
+
+// NEW STUFF
+function getBarBaseTemplate() {
+	return `
+	<div v-if="tmp[layer].bars && tmp[layer].bars[data].unlocked" v-bind:style="{'position': 'relative'}"><div v-bind:style="[tmp[layer].bars[data].style, style.dims, {'display': 'table'}]">
+		<div class = "overlayTextContainer barBorder" v-bind:style="[tmp[layer].bars[data].borderStyle, style.dims]">
+			<span class = "overlayText" v-bind:style="[tmp[layer].bars[data].style, tmp[layer].bars[data].textStyle]" v-html="run(layers[layer].bars[data].display, layers[layer].bars[data])"></span>
+		</div>
+		<div class ="barBG barBorder" v-bind:style="[tmp[layer].bars[data].style, tmp[layer].bars[data].baseStyle, tmp[layer].bars[data].borderStyle,  style.dims]">
+			<div class ="fill" v-bind:style="[tmp[layer].bars[data].style, tmp[layer].bars[data].fillStyle, style.fillDims]"></div>
+		</div>
+	</div></div>
+	`
 }

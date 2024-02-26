@@ -87,6 +87,7 @@ function loadVue() {
 		</div>
 		`
 	})
+
 	Vue.component('infobox', {
 		props: ['layer', 'data'],
 		template: `
@@ -102,7 +103,6 @@ function loadVue() {
 		</div>
 		`
 	})
-
 
 	// Data = width in px, by default fills the full area
 	Vue.component('h-line', {
@@ -220,17 +220,6 @@ function loadVue() {
 		template: `
 		<button class="smallUpg can" v-bind:style="{'background-color': tmp[data[0]].color}" v-on:click="toggleAuto(data)">{{player[data[0]][data[1]]?"ON":"OFF"}}</button>
 		`
-	})
-
-	Vue.component('prestige-button', {
-		props: ['layer', 'data'],
-		template: `
-		<button v-if="(tmp[layer].type !== 'none')" v-bind:class="{ [layer]: true, reset: true, locked: !tmp[layer].canReset, can: tmp[layer].canReset}"
-			v-bind:style="[tmp[layer].canReset ? {'background-color': tmp[layer].color} : {}, tmp[layer].componentStyles['prestige-button']]"
-			v-html="prestigeButtonText(layer)" v-on:click="doReset(layer)">
-		</button>
-		`
-	
 	})
 
 	// Displays the main resource for the layer
@@ -375,7 +364,6 @@ function loadVue() {
 	`
 	})
 
-
 	// data = optionally, array of rows for the grid to show
 	Vue.component('grid', {
 		props: ['layer', 'data'],
@@ -445,26 +433,6 @@ function loadVue() {
 		</div>
 		`
 	})
-
-
-	// data = id of the bar
-	Vue.component('bar', {
-		props: ['layer', 'data'],
-		computed: {
-			style() {return constructBarStyle(this.layer, this.data)}
-		},
-		template: `
-		<div v-if="tmp[layer].bars && tmp[layer].bars[data].unlocked" v-bind:style="{'position': 'relative'}"><div v-bind:style="[tmp[layer].bars[data].style, style.dims, {'display': 'table'}]">
-			<div class = "overlayTextContainer barBorder" v-bind:style="[tmp[layer].bars[data].borderStyle, style.dims]">
-				<span class = "overlayText" v-bind:style="[tmp[layer].bars[data].style, tmp[layer].bars[data].textStyle]" v-html="run(layers[layer].bars[data].display, layers[layer].bars[data])"></span>
-			</div>
-			<div class ="barBG barBorder" v-bind:style="[tmp[layer].bars[data].style, tmp[layer].bars[data].baseStyle, tmp[layer].bars[data].borderStyle,  style.dims]">
-				<div class ="fill" v-bind:style="[tmp[layer].bars[data].style, tmp[layer].bars[data].fillStyle, style.fillDims]"></div>
-			</div>
-		</div></div>
-		`
-	})
-
 
 	Vue.component('achievements', {
 		props: ['layer', 'data'],
@@ -554,7 +522,6 @@ function loadVue() {
 	`
 	})
 
-
 	// Updates the value in player[layer][data]
 	Vue.component('text-input', {
 		props: ['layer', 'data'],
@@ -590,6 +557,7 @@ function loadVue() {
 				v-bind:class="{ longUpg: true, can: player[layer].unlocked, locked: !player[layer].unlocked }">{{tmp[layer].buyables.sellOneText ? tmp[layer].buyables.sellOneText : "Sell One"}}</button>
 	`
 	})
+
 	Vue.component('sell-all', {
 		props: ['layer', 'data'],
 		template: `
@@ -660,6 +628,44 @@ function loadVue() {
 			run,
 			gridRun,
 		},
+	})	
+
+	Vue.component('prestige-button', {
+		props: ['layer', 'data'],
+		template: `
+		<button v-if="(tmp[layer].type !== 'none')" v-bind:class="{ [layer]: true, reset: true, locked: !tmp[layer].canReset, can: tmp[layer].canReset}"
+			v-bind:style="[tmp[layer].canReset ? {'background-color': tmp[layer].color} : {}, tmp[layer].componentStyles['prestige-button']]"
+			v-html="prestigeButtonText(layer)" v-on:click="doReset(layer)">
+		</button>
+		`	
+	})
+
+	// data = id of the bar
+	Vue.component('bar', {
+		props: ['layer', 'data'],
+		computed: {
+			style() {
+				return constructBarStyle(this.layer, this.data)
+			}
+		},
+		template: getBarBaseTemplate()
+	})
+
+	// NEW STUFF
+	Vue.component('prestige-button-with-progress', {
+		props: ['layer', 'data'],
+		computed: {
+			style() {
+				return constructBarStyle(this.layer, this.data)
+			}
+		},
+		template: `
+		<button v-if="(tmp[layer].type !== 'none')" v-bind:class="{ [layer]: true, reset: true, locked: !tmp[layer].canReset, can: tmp[layer].canReset}"
+			v-bind:style="[tmp[layer].canReset ? {'background-color': tmp[layer].color} : {}, tmp[layer].componentStyles['prestige-button-with-progress']]"
+			v-on:click="doReset(layer)">
+			<span v-html="prestigeButtonText(layer)"></span><br/><br/>` + getBarBaseTemplate() + `
+		</button>
+		`
 	})
 }
 

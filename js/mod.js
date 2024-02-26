@@ -5,26 +5,12 @@ let modInfo = {
 	pointsName: "Essence",
 	modFiles: [
 		"tree.js", 
-		"layers/01_mana.js",
-		"layers/02_magic.js",
-		"layers/03_elemental.js",
-
-
-		"layers/03a_light.js",
-		"layers/03b_dark.js",
-		"layers/05a_air.js",
-		"layers/05b_water.js",
-		"layers/05c_earth.js",
-		"layers/05d_fire.js",
-		"layers/06a_life.js",
-		"layers/06b_chaos.js",
-		"layers/07a_alpha.js",
-		"layers/07b_omega.js"
+		"layers/01_mana.js"
 	],
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
@@ -59,40 +45,29 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(1)
+	let gain = new Decimal(0)
 
-	// Mana Milestones
-	if (hasMilestone('mana', 0)) gain = gain.times(2)
-	if (hasMilestone('mana', 3)) gain = gain.times(2)
-	if (hasMilestone('mana', 5)) gain = gain.times(milestoneEffect('mana', 5))
-	if (hasMilestone('mana', 9)) gain = gain.times(10)
+	if (hasUpgrade('mana', 11)) gain = gain.add(0.01)
+	if (hasUpgrade('mana', 15)) gain = gain.add(0.09)
+	if (hasUpgrade('mana', 23)) gain = gain.add(0.4)
+	if (hasUpgrade('mana', 24)) gain = gain.add(0.5)
 
-	// Mana Upgrades
-	if (hasUpgrade('mana', 11)) gain = gain.times(2)
+	if (getBuyableAmount('mana', 12) > 0) gain = gain.add(buyableEffect('mana', 12))
+
 	if (hasUpgrade('mana', 12)) gain = gain.times(2)
-	if (hasUpgrade('mana', 13)) gain = gain.times(2)
+	if (hasUpgrade('mana', 13)) gain = gain.times(upgradeEffect('mana', 13))
+	if (hasUpgrade('mana', 14)) gain = gain.times(upgradeEffect('mana', 14))
+	if (hasUpgrade('mana', 22)) gain = gain.times(3)
+	if (hasUpgrade('mana', 33)) gain = gain.times(upgradeEffect('mana', 33))
+	if (hasUpgrade('mana', 34)) gain = gain.times(upgradeEffect('mana', 34))
 
+	if (getBuyableAmount('mana', 11) > 0) gain = gain.times(buyableEffect('mana', 11))
+	if (getBuyableAmount('mana', 41) > 0) gain = gain.times(buyableEffect('mana', 41))
+	if (getBuyableAmount('mana', 42) > 0) gain = gain.times(buyableEffect('mana', 42))
 
-  //if (hasUpgrade('mana', 15)) gain = gain.times(upgradeEffect('mana', 15))
-
-	// Magic Milestones
-	if (hasMilestone('magic', 0)) gain = gain.times(3)
-
-	// Magic Upgrades
-
-	// Light Upgrades
-	
-	// Dark Upgrades
-	
-	// Elemental Upgrades
-
-	// Air Upgrades
-
-	// Water Upgrades
-
-	// Earth Upgrades
-	
-	// Fire Upgrades
+	// if (hasUpgrade('magic', 11)) gain = gain.times(upgradeEffect('magic', 11))
+	// DEBUG MODE (FAST SPEED)
+	// gain = gain.times(100)
 
 	return gain
 }

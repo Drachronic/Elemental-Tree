@@ -25,8 +25,6 @@ function canBuyBuyable(layer, id) {
 	return (b.unlocked && run(b.canAfford, b) && player[layer].buyables[id].lt(b.purchaseLimit) && !tmp[layer].deactivated)
 }
 
-
-
 function canAffordPurchase(layer, thing, cost) {
 	if (thing.currencyInternalName) {
 		let name = thing.currencyInternalName
@@ -409,4 +407,74 @@ function gridRun(layer, func, data, id) {
 	}
 	else
 		return layers[layer].grid[func];
+}
+
+// NEW STUFF
+function baseBuyablePurchase(layer, id) {
+	let cost = tmp[layer].buyables[id].cost
+	player[layer].points = player[layer].points.sub(cost)
+	player[layer].buyables[id] = player[layer].buyables[id].add(1)
+	player[layer].spentOnBuyables = player[layer].spentOnBuyables.add(cost)
+}
+
+function baseBuyableTextDefault(layer, id, data, max) {
+	let txt = "Cost: " + format(data.cost) + " " + tmp[layer].name + "\n\
+	Amount: " + player[layer].buyables[id] + "/" + max
+	return txt
+}
+
+function baseBuyableTextTwoEffects(layer, id, max, prefix1, prefix2) {
+	let data = tmp[layer].buyables[id]
+	let txt = baseBuyableTextDefault(layer, id, data, max)
+	if (prefix1.length != null) {
+		txt = txt + "\n\n" + prefix1 + " by " + format(data.effect.first) + "x"
+	}
+	if (prefix2.length != null) {
+		txt = txt + "\n\n" + prefix2 + " by " + format(data.effect.second) + "x"
+	}
+	return txt
+}
+
+function baseBuyableText(layer, id, max, prefix) {
+	let data = tmp[layer].buyables[id]
+	let txt = baseBuyableTextDefault(layer, id, data, max)
+	if (prefix.length != null) {
+		return txt + "\n\n" + prefix + " by " + format(data.effect) + "x"
+	}
+	else {
+		return txt
+	}
+}
+
+function baseBuyableEffect(x, base, calculated) {
+	if (x.gte(0)) {
+		return calculated
+	}
+	else {
+		return base
+	}
+}
+
+function baseBuyableAfford(layer, id) {
+	return player[layer].points.gte(tmp[layer].buyables[id].cost)
+}
+
+function getFullBuyablesCount(layer) {
+	let c = new Decimal(0)
+	Object.entries(player[layer].buyables).forEach(([key, value]) => {
+		c = c.add(new Decimal(value))
+ 	});
+	return c
+}
+
+function getLowestBuyableAmount(layer, ids) {
+	let lowest = 0
+
+	ids.forEach(i => {
+		if (getBuyableAmount(layer, i) < lowest) {
+			lowest = getBuyableAmount(layer, i)
+		}
+	});
+
+	return lowest
 }
